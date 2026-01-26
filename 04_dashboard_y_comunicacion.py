@@ -18,7 +18,7 @@ Original file is located at
 ## Configuración del entorno
 """
 
-#!pip install plotly streamlit scikit-learn pandas numpy joblib
+"""#!pip install plotly streamlit scikit-learn pandas numpy joblib
 import pandas as pd
 import numpy as np
 #import matplotlib.pyplot as plt
@@ -29,7 +29,7 @@ from plotly.subplots import make_subplots
 import warnings
 import os
 from datetime import datetime
-
+"""
 # Configuración de visualización y alertas
 warnings.filterwarnings('ignore')
 pd.set_option('display.max_columns', None)

@@ -3,6 +3,12 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime
+from plotly.subplots import make_subplots
+
+
+# ... el resto de tu código ...
+
+fig_sales = make_subplots(specs=[[{"secondary_y": True}]])
 
 # --- CONFIGURACIÓN INICIAL ---
 st.set_page_config(

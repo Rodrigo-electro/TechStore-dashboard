@@ -30,12 +30,13 @@ import warnings
 import os
 from datetime import datetime
 """
+"""
 # Configuración de visualización y alertas
-#warnings.filterwarnings('ignore')
+warnings.filterwarnings('ignore')
 pd.set_option('display.max_columns', None)
 pd.set_option('display.float_format', lambda x: '%.3f' % x)
 sns.set_style("whitegrid")
-
+"""
 print(f"🚀 Sistema iniciado: {datetime.now()}")
 print("Entorno configurado para Procesamiento de Datos a Gran Escala.")
 

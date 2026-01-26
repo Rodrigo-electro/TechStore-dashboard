@@ -54,8 +54,8 @@ FILES = {
 }
 
 OUTPUT_DIR = "deployment_artifacts"
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-print(f"Directorio de salida creado: {OUTPUT_DIR}")
+#os.makedirs(OUTPUT_DIR, exist_ok=True)
+#print(f"Directorio de salida creado: {OUTPUT_DIR}")
 
 # Validación de existencia de archivos
 print("\n ⏫Verificación de Archivos")

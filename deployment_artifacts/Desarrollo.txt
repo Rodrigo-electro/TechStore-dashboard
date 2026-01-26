@@ -1,0 +1,16 @@
+
+# RetailMax ML Deployment Artifacts
+Fecha de Generación: 2026-01-26 03:22:54.692569
+
+## Archivos Contenidos:
+1. dashboard_master_data.csv: Base de clientes con scoring de riesgo.
+2. dashboard_sales_history.csv: Histórico de ventas + features.
+3. kpi_summary.csv: Métricas rápidas para cabecera.
+4. Modelos .pkl: Objetos binarios de ML.
+
+## Métricas de Rendimiento:
+- Modelo Churn ROC-AUC: 0.8049
+- Modelo Ventas MAE: 5437.11
+
+## Autor:
+Luis Rodrigo Alvarez

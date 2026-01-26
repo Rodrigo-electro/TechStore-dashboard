@@ -180,7 +180,7 @@ elif role == "📢 CMO (Marketing)":
         # Lógica: Clientes leales (Riesgo bajo) con alta satisfacción
         upsell_list = df_filtered[(df_filtered['nivel_riesgo'] == 'Bajo') & (df_filtered['satisfaccion'] > 8)]
         st.write(f"Se encontraron {len(upsell_list)} candidatos ideales para cross-selling.")
-        st.dataframe(upsell_list[['cliente_id', 'segmento', 'beneficio_neto', 'categoria_favorita']])
+         st.dataframe(upsell_list[['cliente_id', 'segmento', 'beneficio_neto', 'categoria_favorita']])
 
 # ==========================================
 # VISTA 3: TECH LEAD (MLOPS & AUDITORÍA)

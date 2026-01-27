@@ -177,7 +177,14 @@ elif role == "📢 CMO (Marketing)":
         upsell_list = df_filtered[(df_filtered['nivel_riesgo'] == 'Bajo') & (df_filtered['satisfaccion'] > 8)]
         st.write(f"Se encontraron {len(upsell_list)} candidatos ideales para cross-selling.")
         st.write("Columnas disponibles:", upsell_list.columns.tolist()) # Linea añadida
-        st.dataframe(upsell_list[['cliente_id', 'segmento', 'beneficio_neto', 'categoria_favorita']])
+        #st.dataframe(upsell_list[['cliente_id', 'segmento', 'beneficio_neto', 'categoria_favorita']])
+        # Definimos las columnas que queremos
+        columnas_interes = ['cliente_id', 'segmento', 'beneficio_neto', 'categoria_favorita']
+        # Solo seleccionamos las que DE VERDAD existen en el dataframe
+        columnas_existentes = [col for col in columnas_interes if col in upsell_list.columns]
+        upsell_list = upsell_list.reset_index()
+        # Mostramos el dataframe
+        st.dataframe(upsell_list[columnas_existentes])
 
 # ==========================================
 # VISTA 3: TECH LEAD (MLOPS & AUDITORÍA)

@@ -158,7 +158,7 @@ elif role == "📢 CMO (Marketing)":
     with tab2:
         st.subheader("Lista de Acción Inmediata (Churn Prevention)")
         # Filtro de clientes en riesgo alto
-        risk_list = df_filtered[df_filtered['nivel_riesgo'] == 'Alto'].sort_values('probabilidad_fuga', ascending=False
+        risk_list = df_filtered[df_filtered['nivel_riesgo'] == 'Alto'].sort_values('probabilidad_fuga', ascending=False)
         st.dataframe(risk_list[['cliente_id', 'probabilidad_fuga', 'satisfaccion', 'categoria_favorita', 'clv_estimado']].head(50))
 
         # Botón de descarga real

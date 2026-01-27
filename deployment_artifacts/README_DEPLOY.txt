@@ -1,5 +1,5 @@
 
-# RetailMax ML Deployment Artifacts
+# TechStore ML Deployment Artifacts
 Fecha de Generación: 2026-01-26 03:22:08.479435
 
 ## Archivos Contenidos:

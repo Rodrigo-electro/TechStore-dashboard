@@ -158,7 +158,7 @@ elif role == "📢 CMO (Marketing)":
     with tab2:
         st.subheader("Lista de Acción Inmediata (Churn Prevention)")
         # Filtro de clientes en riesgo alto
-        risk_list = df_filtered[df_filtered['nivel_riesgo'] == 'Alto'].sort_values('probabilidad_fuga', ascending=False)
+        risk_list = df_filtered[df_filtered['nivel_riesgo'] == 'Alto'].sort_values('probabilidad_fuga', ascending=False
         st.dataframe(risk_list[['cliente_id', 'probabilidad_fuga', 'satisfaccion', 'categoria_favorita', 'clv_estimado']].head(50))
 
         # Botón de descarga real
@@ -176,6 +176,7 @@ elif role == "📢 CMO (Marketing)":
         # Lógica: Clientes leales (Riesgo bajo) con alta satisfacción
         upsell_list = df_filtered[(df_filtered['nivel_riesgo'] == 'Bajo') & (df_filtered['satisfaccion'] > 8)]
         st.write(f"Se encontraron {len(upsell_list)} candidatos ideales para cross-selling.")
+        st.write("Columnas disponibles:", upsell_list.columns.tolist()) # Linea añadida
         st.dataframe(upsell_list[['cliente_id', 'segmento', 'beneficio_neto', 'categoria_favorita']])
 
 # ==========================================

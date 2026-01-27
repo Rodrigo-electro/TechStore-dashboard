@@ -1,6 +1,6 @@
 
-# RetailMax ML Deployment Artifacts
-Fecha de Generación: 2026-01-26 03:22:54.692569
+#  TechStore Deployment Artifacts
+Fecha de Generación: 2026-01-27 03:29:51.625525
 
 ## Archivos Contenidos:
 1. dashboard_master_data.csv: Base de clientes con scoring de riesgo.

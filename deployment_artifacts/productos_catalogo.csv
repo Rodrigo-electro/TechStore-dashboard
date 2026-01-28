@@ -1,0 +1,11 @@
+producto_id,nombre,categoria,precio,margen,stock
+PROD_001,iPhone 14,Smartphones,899,0.25,150
+PROD_002,MacBook Pro,Laptops,1999,0.2,75
+PROD_003,AirPods Pro,Accesorios,249,0.35,200
+PROD_004,iPad Air,Smartphones,599,0.22,120
+PROD_005,Gaming Mouse,Gaming,79,0.4,300
+PROD_006,Mechanical Keyboard,Gaming,129,0.38,180
+PROD_007,Monitor 4K,Accesorios,399,0.28,90
+PROD_008,Webcam HD,Accesorios,89,0.45,250
+PROD_009,Smartphone Case,Accesorios,29,0.6,500
+PROD_010,Laptop Bag,Accesorios,49,0.55,200

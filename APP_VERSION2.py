@@ -8,7 +8,7 @@ import joblib
 
 # --- CONFIGURACIÓN DE PÁGINA ---
 st.set_page_config(
-    page_title="RetailMax AI | Enterprise ERP",
+    page_title="TechStore | Enterprise ERP",
     page_icon="🏢",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -100,7 +100,7 @@ df_inv = calcular_inventario(df_trans, df_prod)
 # --- SIDEBAR DE NAVEGACIÓN ---
 with st.sidebar:
     st.image("https://cdn-icons-png.flaticon.com/512/8863/8863268.png", width=60)
-    st.title("RetailMax ERP")
+    st.title("TechStore ERP")
     
     perfil = st.radio("Seleccione Módulo:", 
                       ["📊 CEO (Estrategia)", 
@@ -293,4 +293,4 @@ elif perfil == "📢 CMO (Marketing & Ventas)":
                 col_b.button(f"Lanzar Promo {row['nombre']}", key=row['nombre'])
 
 st.sidebar.markdown("---")
-st.sidebar.caption("RetailMax System | Powered by Streamlit")
+st.sidebar.caption("TechStore System | Powered by Streamlit")

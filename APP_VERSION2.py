@@ -99,7 +99,7 @@ df_inv = calcular_inventario(df_trans, df_prod)
 
 # --- SIDEBAR DE NAVEGACIÓN ---
 with st.sidebar:
-    st.image("https://cdn-icons-png.flaticon.com/512/8863/8863268.png", width=60)
+    st.image("https://www.flaticon.com/free-icon/money-growth_12149250?term=sales&page=1&position=16&origin=search&related_id=12149250", width=60)
     st.title("TechStore ERP")
     
     perfil = st.radio("Seleccione Módulo:", 

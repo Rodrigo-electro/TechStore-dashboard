@@ -109,7 +109,7 @@ with st.sidebar:
     
     st.divider()
     st.info(f"📅 Data al: {datetime.now().strftime('%Y-%m-%d')}")
-    st.caption("v3.0 - Full Stack AI")
+    st.caption("Version-8.0 / 2026-01-27")
 
 # ==============================================================================
 # MÓDULO 1: CEO & ESTRATEGIA (Pronósticos Financieros)

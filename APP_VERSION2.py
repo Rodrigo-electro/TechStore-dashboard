@@ -278,7 +278,7 @@ elif perfil == "📢 CMO (Marketing & Ventas)":
         # Identificar productos con mucho stock y margen para promocionar
         push_products = df_inv[(df_inv['stock'] > 50) & (df_inv['margen'] > 0.3)]
         
-        st.info("💡 **Insight de IA:** Los siguientes productos tienen alto stock y margen. Se recomienda hacer Bundles.")
+        st.info("💡 **Insight:** Los siguientes productos tienen alto stock y margen. Se recomienda hacer Bundles.")
         
         for index, row in push_products.head(3).iterrows():
             with st.expander(f"🔥 Promo Sugerida: {row['nombre']}"):

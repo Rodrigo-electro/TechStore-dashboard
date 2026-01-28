@@ -1,3 +1,4 @@
+# Codigo para Streamlit, copiar, pegar y guardar como TechStore_app.py, solo este bloque
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -30,7 +31,7 @@ st.markdown("""
 def load_data():
     # Rutas relativas (Asegúrate de tener estos archivos en la carpeta de despliegue)
     path = "deployment_artifacts/"
-    
+
     # 1. Datos Maestros del Dashboard (Generados en Colab)
     try:
         df_master = pd.read_csv(path + 'dashboard_master_data.csv')
@@ -43,7 +44,7 @@ def load_data():
     except FileNotFoundError:
         st.error("⚠️ Faltan archivos críticos del Pipeline (dashboard_master_data.csv).")
         st.stop()
-        
+
     # 2. Datos Operativos (Archivos Raw para inventario)
     try:
         # Buscamos en carpeta artifacts o raíz
@@ -74,39 +75,41 @@ def calcular_inventario(df_t, df_p):
     df_t['fecha'] = pd.to_datetime(df_t['fecha'])
     last_30_days = df_t['fecha'].max() - timedelta(days=30)
     sales_30d = df_t[df_t['fecha'] > last_30_days].groupby('producto').size().reset_index(name='ventas_mes')
-    
+
     # Merge con catálogo
     inv_df = pd.merge(df_p, sales_30d, left_on='nombre', right_on='producto', how='left').fillna(0)
-    
+
     # KPIs de Inventario
     inv_df['ventas_diarias'] = inv_df['ventas_mes'] / 30
-    inv_df['dias_stock'] = np.where(inv_df['ventas_diarias'] > 0, 
-                                    inv_df['stock'] / inv_df['ventas_diarias'], 
+    inv_df['dias_stock'] = np.where(inv_df['ventas_diarias'] > 0,
+                                    inv_df['stock'] / inv_df['ventas_diarias'],
                                     999) # 999 si no hay ventas
-    
+
     # Lógica de Reabastecimiento
-    inv_df['status'] = np.where(inv_df['dias_stock'] < 15, '🔴 Crítico', 
+    inv_df['status'] = np.where(inv_df['dias_stock'] < 15, '🔴 Crítico',
                        np.where(inv_df['dias_stock'] < 30, '🟡 Alerta', '🟢 OK'))
-    
-    inv_df['sugerencia_compra'] = np.where(inv_df['status'] != '🟢 OK', 
+
+    inv_df['sugerencia_compra'] = np.where(inv_df['status'] != '🟢 OK',
                                           (inv_df['ventas_diarias'] * 45) - inv_df['stock'], # Target 45 días
                                           0).astype(int)
     inv_df['sugerencia_compra'] = inv_df['sugerencia_compra'].clip(lower=0)
-    
+
     return inv_df
 
 df_inv = calcular_inventario(df_trans, df_prod)
 
 # --- SIDEBAR DE NAVEGACIÓN ---
 with st.sidebar:
-    st.image("https://www.pngwing.com/es/free-png-nujfc", width=60)
+    # st.image("https://www.flaticon.com/free-icon/money-growth_12149250?term=sales&page=1&position=16&origin=search&related_id=12149250", width=60) # Original URL (likely a webpage)
+    # Example of a direct image URL (replace with your desired image .png, .jpg, etc. link)
+    st.image("https://www.streamlit.io/images/brand/streamlit-logo-secondary-colormark-light.png", width=60)
     st.title("TechStore ERP")
-    
-    perfil = st.radio("Seleccione Módulo:", 
-                      ["📊 CEO (Estrategia)", 
-                       "📦 Supply Chain (Inventario)", 
+
+    perfil = st.radio("Seleccione Módulo:",
+                      ["📊 CEO (Estrategia)",
+                       "📦 Supply Chain (Inventario)",
                        "📢 CMO (Marketing & Ventas)"])
-    
+
     st.divider()
     st.info(f"📅 Data al: {datetime.now().strftime('%Y-%m-%d')}")
     st.caption("Version-8.0 / 2026-01-27")
@@ -116,30 +119,30 @@ with st.sidebar:
 # ==============================================================================
 if perfil == "📊 CEO (Estrategia)":
     st.title("Tablero de Mando Integral")
-    
+
     # 1. KPIs Financieros
     col1, col2, col3, col4 = st.columns(4)
     ventas_totales = df_sales['ventas'].sum() if 'ventas' in df_sales else 0
     forecast_next_m = df_sales['ventas'].mean() # Placeholder si no hay predicción
-    
+
     col1.metric("Ventas YTD", f"${ventas_totales/1e6:.2f}M", "+4.5%")
     col2.metric("Margen Promedio", "22.4%", "-1.2%", delta_color="inverse")
     col3.metric("Valor Inventario", f"${(df_inv['stock']*df_inv['precio']).sum()/1e3:.1f}k", "Stable")
     col4.metric("Churn Rate Pred.", f"{df['prediccion_fuga'].mean()*100:.1f}%", "-0.8%")
-    
+
     st.markdown("---")
-    
+
     # 2. SIMULADOR DE VENTAS (FORECASTING)
     st.subheader("🤖 Simulador de Escenarios de Ventas (AI Forecast)")
-    
+
     c1, c2 = st.columns([1, 2])
-    
+
     with c1:
         st.markdown("**Panel de Control**")
-        budget_input = st.slider("Presupuesto Marketing ($)", 5000, 50000, 15000)
+        budget_input = st.slider("Presupuesto Marketing ($", 5000, 50000, 15000)
         price_idx = st.slider("Índice de Precios vs Mercado", 0.8, 1.2, 1.0)
         confianza = st.select_slider("Índice Confianza Consumidor", options=[80, 90, 100, 110, 120], value=100)
-        
+
     with c2:
         # Lógica de Predicción
         if model_sales:
@@ -158,14 +161,14 @@ if perfil == "📊 CEO (Estrategia)":
                 'ma_3': [last_sales],
                 'es_diciembre': [0]
             })
-            
+
             # Ajustar columnas faltantes con 0
             cols_modelo = model_sales.feature_names_in_ if hasattr(model_sales, 'feature_names_in_') else input_data.columns
             for c in cols_modelo:
                 if c not in input_data.columns:
                     input_data[c] = 0
             input_data = input_data[cols_modelo] # Reordenar
-            
+
             prediccion = model_sales.predict(input_data)[0]
         else:
             # Fallback: Regresión lineal simple simulada
@@ -183,7 +186,7 @@ if perfil == "📊 CEO (Estrategia)":
                 'threshold': {'line': {'color': "red", 'width': 4}, 'thickness': 0.75, 'value': last_sales}
             }
         ))
-        st.plotly_chart(fig_gauge, use_container_width=True)
+        st.plotly_chart(fig_gauge, width='stretch')
         st.info(f"💡 Insight: Aumentar el presupuesto en $1k genera un retorno estimado de ${2500 if not model_sales else 'variable'}.")
 
 # ==============================================================================
@@ -191,20 +194,20 @@ if perfil == "📊 CEO (Estrategia)":
 # ==============================================================================
 elif perfil == "📦 Supply Chain (Inventario)":
     st.title("Gestión de Inventario & Compras")
-    
+
     # Métricas de Stock
     low_stock = len(df_inv[df_inv['status'] == '🔴 Crítico'])
     stock_value = (df_inv['stock'] * df_inv['precio']).sum()
-    
+
     m1, m2, m3 = st.columns(3)
     m1.metric("Productos Críticos", low_stock, "Requieren Compra", delta_color="inverse")
     m2.metric("Valor Total Inventario", f"${stock_value:,.0f}")
     m3.metric("Días Inventario Promedio", f"{df_inv['dias_stock'].median():.1f} días")
-    
+
     st.divider()
-    
+
     col_l, col_r = st.columns([2, 1])
-    
+
     with col_l:
         st.subheader("⚠️ Alertas de Reabastecimiento")
         # Tabla coloreada
@@ -217,14 +220,14 @@ elif perfil == "📦 Supply Chain (Inventario)":
             .sort_values('dias_stock')
             .style.applymap(lambda x: color_status(x) if x in ['🔴 Crítico', '🟡 Alerta', '🟢 OK'] else '', subset=['status'])
             .format({'ventas_diarias': '{:.1f}', 'dias_stock': '{:.1f}', 'sugerencia_compra': '{:.0f}'}),
-            use_container_width=True
+            width='stretch'
         )
-        
+
     with col_r:
         st.subheader("Orden de Compra Sugerida")
         costo_compra = (df_inv['sugerencia_compra'] * df_inv['precio'] * 0.6).sum() # Asumiendo costo es 60% del precio
         st.write(f"Costo Estimado Reposición: **${costo_compra:,.2f}**")
-        
+
         if st.button("Generar Orden de Compra (PDF)"):
             st.success("✅ Orden #PO-2025-001 enviada a proveedores.")
             st.balloons()
@@ -243,20 +246,20 @@ elif perfil == "📦 Supply Chain (Inventario)":
 # ==============================================================================
 elif perfil == "📢 CMO (Marketing & Ventas)":
     st.title("Optimización de Marketing y Campañas")
-    
+
     tab1, tab2 = st.tabs(["🎯 Segmentación Inteligente", "🛍️ Cross-Selling & Promos"])
-    
+
     with tab1:
         st.subheader("Estrategia por Segmento de Cliente")
-        
+
         # Gráfico de Dispersión Avanzado
-        fig_seg = px.scatter(df, x='recency', y='frequency', 
+        fig_seg = px.scatter(df, x='recency', y='frequency',
                              size='monetary', color='segmento',
                              hover_name='cliente_id',
                              title="Matriz RFM Interactiva",
                              labels={'recency': 'Días desde última compra', 'frequency': 'Frecuencia de compra'})
-        st.plotly_chart(fig_seg, use_container_width=True)
-        
+        st.plotly_chart(fig_seg, width='stretch')
+
         c1, c2 = st.columns(2)
         with c1:
             st.markdown("### 🏆 Clientes VIP en Riesgo")
@@ -264,7 +267,7 @@ elif perfil == "📢 CMO (Marketing & Ventas)":
             st.dataframe(vip_risk[['cliente_id', 'clv_estimado', 'probabilidad_fuga']].head(5))
             if st.button("📧 Enviar Cupón Retención VIP"):
                 st.toast("Correos enviados a 12 clientes VIP.")
-                
+
         with c2:
             st.markdown("### 💤 Reactivación (Win-Back)")
             dormant = df[(df['recency'] > 60) & (df['monetary'] > 500)]
@@ -273,19 +276,19 @@ elif perfil == "📢 CMO (Marketing & Ventas)":
 
     with tab2:
         st.subheader("Motor de Recomendaciones (Market Basket)")
-        
+
         # Simulación de asociación de productos (En real usaríamos algoritmo Apriori)
         # Identificar productos con mucho stock y margen para promocionar
         push_products = df_inv[(df_inv['stock'] > 50) & (df_inv['margen'] > 0.3)]
-        
-        st.info("💡 **Insight:** Los siguientes productos tienen alto stock y margen. Se recomienda hacer Bundles.")
-        
+
+        st.info("💡 **Insight** Los siguientes productos tienen alto stock y margen. Se recomienda hacer Bundles.")
+
         for index, row in push_products.head(3).iterrows():
             with st.expander(f"🔥 Promo Sugerida: {row['nombre']}"):
                 col_a, col_b = st.columns(2)
                 col_a.metric("Stock Disponible", int(row['stock']))
                 col_a.metric("Margen Beneficio", f"{row['margen']*100}%")
-                
+
                 # Sugerencia de Bundle
                 complemento = "Funda Protectora" if "Phone" in row['nombre'] else "Garantía Extendida"
                 col_b.write(f"**Estrategia:** Bundle con *{complemento}*")
